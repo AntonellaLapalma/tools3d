@@ -1,0 +1,336 @@
+<!-- Fragmento: lo carga index.html dentro de la página; no es una página independiente --><div class="llav">
+  <section class="panel">
+    <h3>Cuerpo (forma de la cesta)</h3>
+    <label>Forma</label>
+    <select id="tf_forma"><option value="Cubo">Cubo</option></select>
+    <div class="row">
+      <div><label>Ancho</label><span class="campo"><input id="tf_ancho" class="num" type="number" value="60" min="10" step="1"><span class="u">mm</span></span></div>
+      <div><label>Largo</label><span class="campo"><input id="tf_largo" class="num" type="number" value="60" min="10" step="1"><span class="u">mm</span></span></div>
+      <div><label>Alto</label><span class="campo"><input id="tf_alto" class="num" type="number" value="25" min="3" step="1"><span class="u">mm</span></span></div>
+      <div><label>Radio de aristas</label><span class="campo"><input id="tf_radio_cuerpo" class="num" type="number" value="6" min="0.5" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Inclinación</label><span class="campo"><input id="tf_inclinacion" class="num" type="number" value="5" min="0" max="30" step="1"><span class="u">°</span></span></div>
+    </div>
+
+    <h3>Encastre (placa del macho)</h3>
+    <div class="row">
+      <div><label>Ancho de la placa</label><span class="campo"><input id="tf_pestana" class="num" type="number" value="10" min="3" step="1"><span class="u">mm</span></span></div>
+      <div><label>Espesor de la placa</label><span class="campo"><input id="tf_espesor_placa" class="num" type="number" value="3" min="1" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Radio de esquinas</label><span class="campo"><input id="tf_radio_esquina" class="num" type="number" value="8" min="1" step="1"><span class="u">mm</span></span></div>
+      <div><label>Redondeo inferior</label><span class="campo"><input id="tf_bisel" class="num" type="number" value="0.8" min="0" step="0.1"><span class="u">mm</span></span></div>
+      <div><label>Holgura</label><span class="campo"><input id="tf_holgura" class="num" type="number" value="1.5" min="0" step="0.1"><span class="u">mm</span></span></div>
+    </div>
+    <div class="hint">La holgura es el espacio entre la placa y el marco, por donde pasa la lámina. Dejala un poco mayor que su espesor.</div>
+
+    <h3>Marco (hembra)</h3>
+    <div class="row">
+      <div><label>Ancho del borde</label><span class="campo"><input id="tf_pared" class="num" type="number" value="9" min="2" step="1"><span class="u">mm</span></span></div>
+      <div><label>Alto del marco</label><span class="campo"><input id="tf_alto_marco" class="num" type="number" value="8" min="2" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Canaleta: distancia al hueco</label><span class="campo"><input id="tf_canal_dist" class="num" type="number" value="2" min="0.5" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Canaleta: ancho</label><span class="campo"><input id="tf_canal_ancho" class="num" type="number" value="3" min="1" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Canaleta: profundidad</label><span class="campo"><input id="tf_canal_prof" class="num" type="number" value="3" min="0.5" step="0.5"><span class="u">mm</span></span></div>
+    </div>
+
+    <h3>Rosca (compartida)</h3>
+    <div class="row">
+      <div><label>Diámetro de la rosca</label><span class="campo"><input id="tf_diam_rosca" class="num" type="number" value="8" min="3" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Paso</label><span class="campo"><input id="tf_paso_rosca" class="num" type="number" value="2" min="0.8" step="0.1"><span class="u">mm</span></span></div>
+      <div><label>Cuánto sobresale</label><span class="campo"><input id="tf_saliente_rosca" class="num" type="number" value="8" min="2" step="1"><span class="u">mm</span></span></div>
+      <div><label>Holgura de la muesca</label><span class="campo"><input id="tf_holgura_rosca" class="num" type="number" value="0.5" min="0" step="0.1"><span class="u">mm</span></span></div>
+    </div>
+    <div class="hint">El diámetro de la rosca lo usan la muesca de la hembra y la media rosca de la pieza 3: siempre coinciden.</div>
+
+    <h3>Pieza 3 (lámina del medio)</h3>
+    <div class="row">
+      <div><label>Espesor de la lámina</label><span class="campo"><input id="tf_espesor_lam" class="num" type="number" value="1.2" min="0.4" step="0.1"><span class="u">mm</span></span></div>
+      <div><label>Alto del borde</label><span class="campo"><input id="tf_alto_borde" class="num" type="number" value="2.5" min="0.5" step="0.5"><span class="u">mm</span></span></div>
+      <div><label>Holgura del borde</label><span class="campo"><input id="tf_holgura_canal" class="num" type="number" value="0.3" min="0" step="0.05"><span class="u">mm</span></span></div>
+      <div><label>Hueco de abajo: ancho</label><span class="campo"><input id="tf_hueco_pw" class="num" type="number" value="8" min="1" step="1"><span class="u">mm</span></span></div>
+      <div><label>Hueco de abajo: alto</label><span class="campo"><input id="tf_hueco_ph" class="num" type="number" value="2" min="0.5" step="0.5"><span class="u">mm</span></span></div>
+    </div>
+    <div class="hint" id="tf_info"></div>
+
+    <h3>Vista</h3>
+    <div class="row">
+      <div><label>Piezas</label>
+        <select id="tf_vista"><option value="separadas">Separadas</option><option value="encastradas">Encastradas</option></select></div>
+    </div>
+    <div class="row colores">
+      <div><label>Macho</label><input id="tf_colorMacho" type="color" value="#7db6d0"></div>
+      <div><label>Hembra</label><input id="tf_colorHembra" type="color" value="#a5a5b0"></div>
+      <div><label>Pieza 3</label><input id="tf_colorPieza3" type="color" value="#f59e42"></div>
+    </div>
+    <div class="hint">Solo cambian la vista previa; el STL no lleva color. En "Encastradas" la pieza 3 se muestra dada vuelta, como se usa.</div>
+
+    <button id="tf_render">Generar</button>
+    <button id="tf_descMacho" class="sec" disabled>Descargar macho (entero)</button>
+    <button id="tf_descHembra" class="sec" disabled>Descargar hembra (solo el marco)</button>
+    <button id="tf_descPieza3" class="sec" disabled>Descargar pieza 3 (lámina con rosca)</button>
+  </section>
+
+  <section class="panel">
+    <div id="tf_view"></div>
+    <div id="tf_progreso" hidden><span></span></div>
+    <div id="tf_estado">Ajustá las medidas y apretá Generar.</div>
+  </section>
+</div>
+<script type="module">
+// ================= CONFIGURACIÓN =================
+const OPENSCAD_JS = "https://cdn.jsdelivr.net/npm/openscad-wasm-prebuilt@1.2.0/dist/openscad.js";
+// El .scad se busca en scad/ junto al index y, si no está, un nivel más arriba
+const CARPETAS = [new URL("./", document.baseURI), new URL("../", document.baseURI)];
+// =================================================
+
+const $ = id => document.getElementById(id);
+const estado = (t, ocupado = false) => { $("tf_estado").textContent = t; $("tf_estado").classList.toggle("ocupado", ocupado); };
+const log = t => console.log("[termoformado] " + t);
+const avance = f => { $("tf_progreso").hidden = f == null; if (f != null) $("tf_progreso").firstElementChild.style.width = Math.round(f * 100) + "%"; };
+
+const CAMPOS = { ancho: "tf_ancho", largo: "tf_largo", alto: "tf_alto", radio_cuerpo: "tf_radio_cuerpo", inclinacion: "tf_inclinacion",
+  pestana: "tf_pestana", espesor_placa: "tf_espesor_placa", radio_esquina: "tf_radio_esquina", bisel: "tf_bisel", holgura: "tf_holgura",
+  pared: "tf_pared", alto_marco: "tf_alto_marco", canal_dist: "tf_canal_dist", canal_ancho: "tf_canal_ancho", canal_prof: "tf_canal_prof",
+  diam_rosca: "tf_diam_rosca", paso_rosca: "tf_paso_rosca", saliente_rosca: "tf_saliente_rosca", holgura_rosca: "tf_holgura_rosca",
+  espesor_lam: "tf_espesor_lam", alto_borde: "tf_alto_borde", holgura_canal: "tf_holgura_canal", hueco_pw: "tf_hueco_pw", hueco_ph: "tf_hueco_ph" };
+
+const leerParams = () => { const P = {}; for (const k in CAMPOS) P[k] = +$(CAMPOS[k]).value; return P; };
+
+// Medidas resultantes y avisos, para comprobar el encastre de un vistazo
+function actualizarInfo() {
+  const P = leerParams();
+  const placa = [P.ancho + 2 * P.pestana, P.largo + 2 * P.pestana];
+  const hueco = placa.map(v => v + 2 * P.holgura);
+  const marco = hueco.map(v => v + 2 * P.pared);
+  const o = P.canal_dist + P.canal_ancho - P.holgura_canal;
+  const pieza3 = hueco.map(v => v + 2 * o);
+  const f = a => a.map(v => +v.toFixed(1)).join(" × ");
+  let t = "Placa del macho: " + f(placa) + " mm · Hueco del marco: " + f(hueco) + " mm · Marco por fuera: " + f(marco) +
+    " mm · Pieza 3: " + f(pieza3) + " mm · Rosca Ø" + P.diam_rosca + " mm (igual en hembra y pieza 3)";
+  const avisos = [];
+  if (P.pared < P.canal_dist + P.canal_ancho + 2) avisos.push("el borde del marco es muy angosto para la canaleta");
+  if (P.canal_prof > P.alto_marco - 1.5) avisos.push("la canaleta es muy profunda para el alto del marco");
+  if ((P.diam_rosca + P.holgura_rosca) / 2 > P.alto_marco - 1.5) avisos.push("la muesca de la rosca es muy honda para el alto del marco");
+  if (P.canal_ancho - 2 * P.holgura_canal < 1) avisos.push("el borde de la pieza 3 queda demasiado fino");
+  if (P.alto_borde > P.canal_prof) avisos.push("el borde de la pieza 3 es más alto que la canaleta");
+  $("tf_info").textContent = t + (avisos.length ? " · Atención: " + avisos.join("; ") + "." : "");
+}
+
+// ---------- Carga del motor ----------
+async function cargarMotor() {
+  try {
+    const mod = await import(OPENSCAD_JS);
+    const f = mod.default || mod.OpenSCAD || Object.values(mod).find(v => typeof v === "function");
+    if (typeof f === "function") return f;
+  } catch (err) {
+    log("Import como módulo falló: " + err);
+  }
+  await new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = OPENSCAD_JS; s.onload = ok;
+    s.onerror = () => fail(new Error("No se pudo descargar " + OPENSCAD_JS));
+    document.head.appendChild(s);
+  });
+  if (typeof window.OpenSCAD === "function") return window.OpenSCAD;
+  throw new Error("No encontré la función OpenSCAD en " + OPENSCAD_JS);
+}
+
+async function leerScad() {
+  const intentos = [];
+  for (const base of CARPETAS) {
+    const url = new URL("scad/termoformado.scad", base).href;
+    try {
+      const r = await fetch(url);
+      if (r.ok) return await r.text();
+      intentos.push(url + " (HTTP " + r.status + ")");
+    } catch (e) { intentos.push(url + " (" + e.message + ")"); }
+  }
+  throw new Error("No se encontró termoformado.scad. Probé: " + intentos.join(" · "));
+}
+
+// ---------- Generación con OpenSCAD ----------
+let stl = {};
+let paramsUsados = null;
+
+async function correr(parte, P) {
+  const OpenSCAD = await cargarMotor();
+  const base = OPENSCAD_JS.replace(/openscad\.js$/, "");
+  let inst;
+  try {
+    inst = await OpenSCAD({ noInitialRun: true, locateFile: p => base + p, print: log, printErr: log });
+    if (inst && typeof inst.getInstance === "function") inst = await inst.getInstance();
+  } catch (err) {
+    log("Inicio con opciones propias falló (" + err + "). Reintento con valores por defecto...");
+    inst = await OpenSCAD();
+    if (inst && typeof inst.getInstance === "function") inst = await inst.getInstance();
+  }
+  if (!inst || !inst.FS) throw new Error("El motor no devolvió el sistema de archivos.");
+  inst.FS.writeFile("/termo.scad", await leerScad());
+  const args = ["/termo.scad", "-o", "/salida.stl", "--export-format", "asciistl", "-D", 'parte="' + parte + '"'];
+  for (const k in CAMPOS) args.push("-D", k + "=" + P[k]);
+  try { inst.callMain(args); } catch (err) { log("callMain: " + err); }
+  try {
+    return inst.FS.readFile("/salida.stl", { encoding: "utf8" });
+  } catch (_) {
+    log("La parte \"" + parte + "\" salió vacía (OpenSCAD no generó archivo).");
+    return "";
+  }
+}
+
+$("tf_render").addEventListener("click", async () => {
+  const btn = $("tf_render");
+  btn.disabled = true;
+  ["tf_descMacho", "tf_descHembra", "tf_descPieza3"].forEach(id => $(id).disabled = true);
+  stl = {};
+  try {
+    const P = paramsUsados = leerParams();
+    const partes = [["Macho", "el macho", "tf_descMacho"], ["Hembra", "la hembra (marco)", "tf_descHembra"], ["Pieza3", "la pieza 3 (lámina con rosca)", "tf_descPieza3"]];
+    for (let i = 0; i < partes.length; i++) {
+      avance(i / partes.length);
+      estado("Generando " + partes[i][1] + "… " + (i + 1) + "/" + partes.length + (i === 0 ? " · la primera vez tarda más" : ""), true);
+      stl[partes[i][0]] = await correr(partes[i][0], P);
+      if (!stl[partes[i][0]]) throw new Error("La pieza " + partes[i][0] + " salió vacía. Revisá las medidas.");
+      mostrarPartes(true);
+      $(partes[i][2]).disabled = false;
+    }
+    avance(1); estado("Listo. Arrastrá para girar y usá la rueda para acercar.");
+    setTimeout(() => avance(null), 600);
+  } catch (err) {
+    console.error(err);
+    avance(null);
+    estado("No se pudo generar: " + (err && err.message ? err.message : "error desconocido"));
+    log(err && err.stack ? err.stack : JSON.stringify(err) || String(err));
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function descargar(texto, nombre) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([texto], { type: "model/stl" }));
+  a.download = nombre + ".stl";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+const sufijo = () => { const P = paramsUsados || leerParams(); return "cubo_" + P.ancho + "x" + P.largo + "x" + P.alto; };
+$("tf_descMacho").addEventListener("click", () => stl.Macho && descargar(stl.Macho, "molde_macho_" + sufijo()));
+$("tf_descHembra").addEventListener("click", () => stl.Hembra && descargar(stl.Hembra, "molde_hembra_" + sufijo()));
+$("tf_descPieza3").addEventListener("click", () => stl.Pieza3 && descargar(stl.Pieza3, "pieza3_lamina_rosca_" + sufijo()));
+
+// ---------- Visor 3D ----------
+// Controles propios: arrastrar = girar, rueda = acercar/alejar.
+let grupo = null;
+const mats = {
+  Macho: new THREE.MeshStandardMaterial({ color: $("tf_colorMacho").value, roughness: .6 }),
+  Hembra: new THREE.MeshStandardMaterial({ color: $("tf_colorHembra").value, roughness: .6 }),
+  Pieza3: new THREE.MeshStandardMaterial({ color: $("tf_colorPieza3").value, roughness: .6 })
+};
+let distancia = 200;
+let rotX = -0.9, rotZ = 0;
+const cont = $("tf_view");
+let renderer, scene, camera;
+
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  cont.appendChild(renderer.domElement);
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
+  grupo = new THREE.Group();
+  scene.add(grupo);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.9));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.6);
+  dl.position.set(50, -80, 120);
+  scene.add(dl);
+
+  const ajustar = () => {
+    const w = cont.clientWidth, h = cont.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+  new ResizeObserver(ajustar).observe(cont);
+  ajustar();
+
+  let arrastrando = false, px = 0, py = 0;
+  const el = renderer.domElement;
+  el.style.touchAction = "none";
+  el.addEventListener("pointerdown", e => { arrastrando = true; px = e.clientX; py = e.clientY; el.setPointerCapture(e.pointerId); });
+  el.addEventListener("pointerup", () => { arrastrando = false; });
+  el.addEventListener("pointermove", e => {
+    if (!arrastrando) return;
+    rotZ += (e.clientX - px) * 0.01;
+    rotX += (e.clientY - py) * 0.01;
+    rotX = Math.max(-Math.PI, Math.min(0, rotX));
+    px = e.clientX; py = e.clientY;
+  });
+  el.addEventListener("wheel", e => {
+    e.preventDefault();
+    distancia *= e.deltaY > 0 ? 1.1 : 0.9;
+  }, { passive: false });
+
+  (function loop() {
+    requestAnimationFrame(loop);
+    grupo.rotation.order = "XZY"; grupo.rotation.set(rotX, 0, rotZ);
+    camera.position.set(0, 0, distancia);
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  })();
+} catch (err) {
+  log("No se pudo iniciar el visor 3D: " + err);
+}
+
+function geoDesdeSTL(txt) {
+  const v = [];
+  const re = /vertex\s+(\S+)\s+(\S+)\s+(\S+)/g;
+  let m; while ((m = re.exec(txt))) v.push(+m[1], +m[2], +m[3]);
+  if (!v.length) return null;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(v, 3));
+  geo.computeVertexNormals();
+  geo.computeBoundingBox();
+  return geo;
+}
+
+// Separadas: una al lado de la otra, tal como se imprimen.
+// Encastradas: macho y hembra como se exportan; la pieza 3 dada vuelta (borde y rosca hacia abajo) sobre el marco.
+function mostrarPartes(reencuadrar) {
+  if (!scene) { log("Piezas generadas, pero el visor 3D no está disponible. Igual podés descargar los STL."); return; }
+  const orden = ["Macho", "Hembra", "Pieza3"];
+  const geos = orden.map(n => stl[n] ? geoDesdeSTL(stl[n]) : null);
+  const hay = geos.filter(Boolean);
+  if (!hay.length) return;
+  const juntas = $("tf_vista").value === "encastradas";
+  const P = paramsUsados || leerParams();
+  if (juntas && geos[2]) {                 // dar vuelta la pieza 3 (eje Y) y apoyarla sobre la cara superior del marco
+    geos[2].rotateY(Math.PI);
+    geos[2].translate(0, 0, P.alto_marco + P.espesor_lam);
+    geos[2].computeBoundingBox();
+  }
+  const anchos = geos.map(g => g ? g.boundingBox.max.x - g.boundingBox.min.x : 0);
+  const huecos = 20;
+  const total = juntas ? Math.max(...anchos) : anchos.reduce((a, b) => a + b, 0) + huecos * (hay.length - 1);
+  const altoMax = Math.max(...hay.map(g => g.boundingBox.max.z));
+  const zMin = Math.min(...hay.map(g => g.boundingBox.min.z));
+  const fondoMax = Math.max(...hay.map(g => g.boundingBox.max.y - g.boundingBox.min.y));
+  while (grupo.children.length) grupo.remove(grupo.children[0]);
+  let x = -total / 2;
+  geos.forEach((g, i) => {
+    if (!g) return;
+    const cx = (g.boundingBox.max.x + g.boundingBox.min.x) / 2, cy = (g.boundingBox.max.y + g.boundingBox.min.y) / 2;
+    // juntas: se conservan las coordenadas originales (todo queda centrado en el origen); separadas: se centra cada una
+    g.translate(juntas ? 0 : x + anchos[i] / 2 - cx, juntas ? 0 : -cy, -(altoMax + zMin) / 2);
+    grupo.add(new THREE.Mesh(g, mats[orden[i]]));
+    if (!juntas) x += anchos[i] + huecos;
+  });
+  if (reencuadrar) {
+    const tan = Math.tan(20 * Math.PI / 180), asp = camera.aspect || 1.4;
+    distancia = Math.max(total / 2 / (tan * asp), fondoMax / 2 / tan) * 1.3;
+    rotX = -0.7; rotZ = 0;
+  }
+}
+
+$("tf_vista").addEventListener("change", () => mostrarPartes(true));
+$("tf_colorMacho").addEventListener("input", e => mats.Macho.color.set(e.target.value));
+$("tf_colorHembra").addEventListener("input", e => mats.Hembra.color.set(e.target.value));
+$("tf_colorPieza3").addEventListener("input", e => mats.Pieza3.color.set(e.target.value));
+Object.values(CAMPOS).forEach(id => $(id).addEventListener("input", actualizarInfo));
+actualizarInfo();
+</script>

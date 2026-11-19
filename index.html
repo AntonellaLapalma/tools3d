@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- SEO PRINCIPAL -->
+<title>Herramientas Gratuitas para Impresión 3D</title>
+
+<meta name="description" content="Herramientas online gratuitas para impresión 3D. Calculadora de costos, generadores paramétricos 3D y más.">
+
+<meta name="author" content="Antonella Lapalma">
+
+<meta name="creator" content="Antonella Lapalma">
+
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta name="googlebot" content="index, follow">
+
+<meta name="language" content="Spanish">
+
+<meta name="theme-color" content="#ffffff">
+
+<!-- PALABRAS CLAVE -->
+<meta name="keywords" content="impresión 3D, herramientas impresión 3D, termoformado, molde desde imagen, calculadora impresión 3D, calculadora costos impresión 3D, cotizador impresión 3D, generador 3D, generador paramétrico, OpenSCAD, modelos STL, herramientas para makers, diseño 3D, Antonella Lapalma">
+
+<!-- OPEN GRAPH: WHATSAPP Y REDES SOCIALES -->
+<meta property="og:type" content="website">
+
+<meta property="og:locale" content="es_AR">
+
+<meta property="og:site_name" content="Herramientas de Impresión 3D">
+
+<meta property="og:title" content="Herramientas de Impresión 3D">
+
+<meta property="og:description" content="Explorá herramientas gratuitas para impresión 3D.">
+
+<!-- Reemplazar por la URL real -->
+<meta property="og:url" content="URL_COMPLETA_DE_TU_PAGINA">
+
+<!-- Crear una imagen de 1200 x 630 px -->
+<meta property="og:image" content="URL_COMPLETA_DE_TU_IMAGEN">
+
+<meta property="og:image:alt" content="Herramientas gratuitas para impresión 3D desarrolladas por Antonella Lapalma">
+
+<!-- AUTORÍA Y PROPIEDAD -->
+<meta name="copyright" content="Antonella Lapalma">
+
+<meta name="rights" content="">
+
+<link rel="stylesheet" href="style/estilo.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="logo" href="#/" aria-label="Inicio"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="3" y="4" width="18" height="3.2" rx="1.6" fill="var(--acc)"/><rect x="3" y="10.4" width="18" height="3.2" rx="1.6" fill="var(--acc)" opacity=".7"/><rect x="3" y="16.8" width="18" height="3.2" rx="1.6" fill="var(--acc)" opacity=".45"/></svg><span>Herramientas 3D</span></a>
+</header>
+
+<div id="cabecera">
+  <div class="filtros"><nav class="pildoras" id="pildoras" aria-label="Herramientas"></nav></div>
+  <p class="sub" id="subtitulo"></p>
+</div>
+
+<div id="vistas">
+  <main id="inicio">
+    <div class="cards" id="cards"></div>
+  </main>
+</div>
+
+<script>
+// Para agregar una herramienta nueva, sumá un objeto a esta lista (y su página en /html).
+const FLECHA = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const HERRAMIENTAS = [
+  { id: "calculadora", titulo: "Calculadora de costos", src: "html/calculadora.html", insignia: "Nuevo",
+    desc: "Costo de producción y precio de venta de cada pieza.",
+    sub: "Cargá los datos de tu laminador, sumá tus márgenes y cotizá cualquier impresión en segundos.",
+    icono: '<svg viewBox="0 0 64 64" width="72" height="72" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="8" width="36" height="48" rx="5"/><rect x="20" y="14" width="24" height="10" rx="2"/><path d="M22 34h2M32 34h2M42 34h2M22 42h2M32 42h2M42 42h2M22 50h2M32 50h12"/></svg>' },
+  { id: "llaveros", titulo: "Llaveros de texto", src: "html/llaveros.html", insignia: "Nuevo",
+    libs: ["https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
+           "https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"],
+    desc: "Llaveros con el texto que quieras, en la fuente y el estilo que elijas.",
+    sub: "Escribí el texto que quieras (un nombre, una marca, lo que sea), elegí su diseño y descargá el STL listo para imprimir.",
+    icono: '<svg viewBox="0 0 64 64" width="72" height="72" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="18" r="8"/><rect x="12" y="26" width="42" height="24" rx="12"/><circle cx="24" cy="38" r="3.5"/><path d="M33 34h14M33 42h10"/></svg>' },
+  { id: "termoformado", titulo: "Kit de termoformado", src: "html/termoformado.html", insignia: "Nuevo",
+    libs: ["https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"],
+    desc: "Molde macho y hembra encastrables para termoformar. Por ahora, con forma de cubo.",
+    sub: "Definí las medidas de la cesta y descargá el macho entero y el marco hembra, listos para imprimir y encastrar.",
+    icono: '<svg viewBox="0 0 64 64" width="72" height="72" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="14" width="48" height="8" rx="2"/><path d="M12 22v28a4 4 0 0 0 4 4h32a4 4 0 0 0 4-4V22"/><path d="M20 22c0 11 5 18 12 18s12-7 12-18"/></svg>' }
+];
+
+const SUB_INICIO = "Calculá, diseñá e imprimí: una herramienta para cada paso.";
+const $ = id => document.getElementById(id);
+
+// Tarjetas y píldoras salen de la misma lista
+$("cards").innerHTML = HERRAMIENTAS.map(h =>
+  '<a class="card" href="#/' + h.id + '">' +
+    '<div class="thumb">' + (h.insignia ? '<span class="insignia">' + h.insignia + '</span>' : '') + h.icono + '</div>' +
+    '<div class="pie"><div class="txt"><h2>' + h.titulo + '</h2><p>' + h.desc + '</p></div><span class="ir">' + FLECHA + '</span></div>' +
+  '</a>').join("");
+$("pildoras").innerHTML = '<a href="#/" data-id="inicio">Todos</a>' +
+  HERRAMIENTAS.map(h => '<a href="#/' + h.id + '" data-id="' + h.id + '">' + h.titulo + '</a>').join("");
+
+// ---------- Todo ocurre dentro de esta misma página ----------
+// Cada herramienta es un fragmento de HTML que se carga una sola vez dentro de su sección.
+// Al cambiar de sección solo se muestra una y se oculta la otra: no hay recarga ni cambio de página,
+// y lo que cargaste en cada herramienta se conserva.
+HERRAMIENTAS.forEach(h => {
+  const sec = document.createElement("section");
+  sec.id = "vista-" + h.id; sec.className = "herr"; sec.hidden = true;
+  $("vistas").appendChild(sec);
+});
+
+const scriptsCargados = {};
+function cargarScript(url) {
+  return scriptsCargados[url] || (scriptsCargados[url] = new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = url; s.onload = ok;
+    s.onerror = () => { delete scriptsCargados[url]; fail(new Error("No se pudo descargar " + url)); };
+    document.head.appendChild(s);
+  }));
+}
+
+const cargadas = {};
+function abrirHerramienta(h) {
+  if (cargadas[h.id]) return cargadas[h.id];
+  const sec = $("vista-" + h.id);
+  sec.innerHTML = '<p class="sub cargando">Cargando…</p>';
+  return cargadas[h.id] = (async () => {
+    for (const u of h.libs || []) await cargarScript(u);
+    const resp = await fetch(h.src);
+    if (!resp.ok) throw new Error("HTTP " + resp.status + " al leer " + h.src);
+    const tpl = document.createElement("template");
+    tpl.innerHTML = await resp.text();
+    const scripts = [...tpl.content.querySelectorAll("script")];
+    const codigos = scripts.map(s => ({ type: s.type, text: s.textContent }));
+    scripts.forEach(s => s.remove());
+    sec.replaceChildren(tpl.content);
+    codigos.forEach(c => {                 // los scripts insertados como texto no se ejecutan solos
+      const n = document.createElement("script");
+      if (c.type) n.type = c.type;
+      n.textContent = c.text;
+      sec.appendChild(n);
+    });
+  })().catch(err => {
+    delete cargadas[h.id];
+    sec.innerHTML = '<p class="sub">No se pudo cargar la herramienta: ' + err.message + '. Recargá la página para reintentar.</p>';
+  });
+}
+
+function mostrar() {
+  const pedido = location.hash.replace(/^#\/?/, "");
+  const id = HERRAMIENTAS.some(h => h.id === pedido) ? pedido : "inicio";
+  document.querySelectorAll("#pildoras a").forEach(a => {
+    const on = a.dataset.id === id;
+    on ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current");
+  });
+  $("inicio").hidden = id !== "inicio";
+  HERRAMIENTAS.forEach(h => { $("vista-" + h.id).hidden = h.id !== id; });
+  const actual = HERRAMIENTAS.find(h => h.id === id);
+  if (actual) abrirHerramienta(actual);      // ya visible: así el visor 3D toma bien su tamaño
+  $("subtitulo").textContent = actual ? actual.sub : SUB_INICIO;
+  document.title = (actual ? actual.titulo + " · " : "") + "Herramientas 3D";
+  window.scrollTo(0, 0);
+}
+addEventListener("hashchange", mostrar);
+mostrar();
+</script>
+</body>
+</html>

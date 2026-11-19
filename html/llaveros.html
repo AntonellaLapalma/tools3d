@@ -1,0 +1,495 @@
+<!-- Fragmento: lo carga html/index.html dentro de la página; no es una página independiente --><div class="llav">
+  <section class="panel">
+    <h3>Texto</h3>
+    <label>Nombre</label>
+    <input id="nombre" value="Texto">
+    <label>Fuente</label>
+    <select id="fuenteSel"><option value="">Fuente por defecto</option></select>
+    <label>O subí la tuya (.ttf / .otf)</label>
+    <input id="fontfile" type="file" accept=".ttf,.otf">
+    <div class="hint" id="fontinfo">Elegí una fuente de la lista o subí la tuya.</div>
+    <div id="preview">Texto</div>
+    <div class="row">
+      <div><label>Tamaño</label><input id="tamano" type="number" value="20" step="0.5"></div>
+      <div><label>Espaciado</label><input id="espaciado" type="number" value="1" step="0.1"></div>
+    </div>
+
+    <h3>Fondo</h3>
+    <label>Forma</label>
+    <select id="forma_fondo">
+      <option value="Silueta">Silueta de las letras</option>
+      <option value="Rectangulo">Rectángulo</option>
+      <option value="Redondeado">Rectángulo redondeado</option>
+      <option value="Pildora">Píldora</option>
+      <option value="Ovalo">Óvalo</option>
+      <option value="Ninguno">Sin fondo</option>
+    </select>
+    <div class="row">
+      <div data-solo="forma_fondo:Silueta,Rectangulo,Redondeado,Pildora,Ovalo"><label>Margen</label><input id="margen" type="number" value="2.5" step="0.1"></div>
+      <div><label>Altura base</label><input id="altura_base" type="number" value="2.5" step="0.1"></div>
+      <div data-solo="forma_fondo:Silueta"><label>Suavizado</label><input id="suavizado" type="number" value="0" min="0" step="0.5"></div>
+      <div data-solo="forma_fondo:Redondeado"><label>Radio de esquinas</label><input id="radio_esquinas" type="number" value="4" step="0.5"></div>
+    </div>
+    <div class="hint" data-solo="forma_fondo:Silueta,Rectangulo,Redondeado,Pildora,Ovalo">Rectángulo, píldora y óvalo siempre dan una sola pieza, aunque el nombre tenga varias palabras.</div>
+    <div class="hint" data-solo="forma_fondo:Ninguno">Sin fondo, las letras (y su borde) quedan solas, con el espesor de la base. Si usás arandela, ubicala a mano tocando las letras o el borde.</div>
+
+    <h3>Letras</h3>
+    <label>Estilo</label>
+    <select id="estilo_texto">
+      <option value="Relieve">En relieve</option>
+      <option value="Incrustado">Incrustadas</option>
+      <option value="Grabado">Grabadas</option>
+    </select>
+    <div class="row">
+      <div data-solo="estilo_texto:Relieve"><label>Altura relieve</label><input id="altura_relieve" type="number" value="1.5" step="0.1"></div>
+      <div data-solo="estilo_texto:Incrustado,Grabado"><label>Profundidad</label><input id="profundidad" type="number" value="1" min="0.2" step="0.1"></div>
+    </div>
+
+    <div data-solo="estilo_texto:Relieve,Incrustado">
+      <label>Borde de las letras</label>
+      <select id="estilo_borde">
+        <option value="Ninguno">Sin borde</option>
+        <option value="Redondeado">Redondeado</option>
+        <option value="Recto">Recto</option>
+        <option value="Biselado">Biselado</option>
+        <option value="Sombra">Sombra</option>
+      </select>
+      <div class="hint">El borde queda a la misma altura que las letras, en relieve o incrustado.</div>
+    </div>
+    <div data-solo="estilo_borde:Redondeado,Recto,Biselado,Sombra;estilo_texto:Relieve,Incrustado">
+      <label>Grosor del borde</label><input id="grosor_borde" type="number" value="1.2" min="0.2" step="0.1">
+    </div>
+
+    <div data-solo="forma_fondo:Silueta,Rectangulo,Redondeado,Pildora,Ovalo">
+      <h3>Marco</h3>
+      <div class="row">
+        <div><label>Grosor (0 = sin marco)</label><input id="marco_grosor" type="number" value="0" min="0" step="0.2"></div>
+        <div><label>Altura</label><input id="marco_altura" type="number" value="1" min="0.2" step="0.2"></div>
+      </div>
+    </div>
+
+    <h3>Arandela</h3>
+    <label>Posición</label>
+    <select id="lado_arandela">
+      <option value="Manual">Manual</option>
+      <option value="Izquierda">Izquierda</option>
+      <option value="Derecha">Derecha</option>
+      <option value="Arriba">Arriba</option>
+      <option value="Sin">Sin arandela</option>
+    </select>
+    <div class="row">
+      <div data-solo="lado_arandela:Manual,Izquierda,Derecha,Arriba"><label>Radio exterior</label><input id="radio_exterior" type="number" value="4" step="0.1"></div>
+      <div data-solo="lado_arandela:Manual,Izquierda,Derecha,Arriba"><label>Radio agujero</label><input id="radio_interior" type="number" value="1.5" step="0.1"></div>
+      <div data-solo="lado_arandela:Manual"><label>Posición X</label><input id="posicion_x" type="number" value="-3" step="0.5"></div>
+      <div data-solo="lado_arandela:Manual"><label>Posición Y</label><input id="posicion_y" type="number" value="3" step="0.5"></div>
+    </div>
+
+    <h3>Colores</h3>
+    <div class="row colores">
+      <div><label>Base</label><input id="colorBase" type="color" value="#303030"></div>
+      <div><label>Letras</label><input id="colorTexto" type="color" value="#ffffff"></div>
+      <div><label>Borde</label><input id="colorBorde" type="color" value="#000000"></div>
+    </div>
+    <div class="hint">Solo cambian la vista previa; el STL no lleva color.</div>
+
+    <button id="render">Generar</button>
+
+    <button id="descCompleto" class="sec" disabled>Descargar STL</button>
+    <div class="hint">Pieza completa en un solo archivo (base, letras y borde).</div>
+  </section>
+
+  <section class="panel">
+    <div id="view"></div>
+    <div id="progreso" hidden><span></span></div>
+    <div id="estado">Listo para generar.</div>
+  </section>
+</div>
+<script type="module">
+// ================= CONFIGURACIÓN =================
+// Si preferís alojar el motor en tu repo, descargá openscad.js y openscad.wasm
+// a la carpeta /lib y cambiá esta URL por "./lib/openscad.js".
+const OPENSCAD_JS = "https://cdn.jsdelivr.net/npm/openscad-wasm-prebuilt@1.2.0/dist/openscad.js";
+const RAIZ = new URL("./", location.href);      // raíz del sitio (esta página está en /html/)
+const ruta = p => new URL(p, RAIZ).href;
+const SCAD_URL = ruta("scad/llavero.scad");
+// =================================================
+
+const $ = id => document.getElementById(id);
+const estado = (t, ocupado = false) => { $("estado").textContent = t; $("estado").classList.toggle("ocupado", ocupado); };
+const log = t => console.log("[llaveros] " + t);       // el detalle técnico queda en la consola, no en la página
+const avance = f => { $("progreso").hidden = f == null; if (f != null) $("progreso").firstElementChild.style.width = Math.round(f * 100) + "%"; };
+
+const fuentes = [];       // fuente activa para OpenSCAD: { name, data(Uint8Array), family }
+const catalogo = [];      // { nombre, archivo?, data?, family?, cssFamily? }
+let cargaPendiente = Promise.resolve();
+let contFace = 0;
+let familiaActiva = null;
+let stlText = null;
+
+// ---------- Carga del motor ----------
+// openscad.js puede ser un módulo ES (con export default) o un script clásico
+// que define la variable global OpenSCAD. Probamos las dos formas.
+async function cargarMotor() {
+  try {
+    const mod = await import(OPENSCAD_JS);
+    log("Exports del módulo: " + (Object.keys(mod).join(", ") || "(ninguno)"));
+    const f = mod.default || mod.OpenSCAD ||
+              Object.values(mod).find(v => typeof v === "function");
+    if (typeof f === "function") return f;
+  } catch (err) {
+    log("Import como módulo falló: " + err);
+  }
+  await new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = OPENSCAD_JS;
+    s.onload = ok;
+    s.onerror = () => fail(new Error("No se pudo descargar " + OPENSCAD_JS));
+    document.head.appendChild(s);
+  });
+  if (typeof window.OpenSCAD === "function") return window.OpenSCAD;
+  throw new Error("No encontré la función OpenSCAD en " + OPENSCAD_JS);
+}
+
+// ---------- Fuentes: lista del sitio + subida del usuario ----------
+function nombreFamilia(buf) {
+  try {
+    const font = opentype.parse(buf);
+    return font.names.fontFamily?.en || Object.values(font.names.fontFamily || {})[0] || null;
+  } catch (err) { return null; }
+}
+
+function actualizarPreview() {
+  const pv = $("preview");
+  pv.textContent = $("nombre").value || "Vista previa";
+  const f = fuentes[0];
+  pv.style.fontFamily = f && f.cssFamily ? '"' + f.cssFamily + '", sans-serif' : "inherit";
+  pv.style.background = $("colorBase").value;
+  pv.style.color = $("colorTexto").value;
+}
+$("nombre").addEventListener("input", actualizarPreview);
+
+// Prepara una entrada del catálogo: descarga (si hace falta), lee el nombre y la registra para la vista previa.
+async function prepararFuente(item) {
+  if (!item.data) {
+    const resp = await fetch(ruta(item.archivo));
+    if (!resp.ok) throw new Error("HTTP " + resp.status + " al bajar " + item.archivo);
+    item.data = new Uint8Array(await resp.arrayBuffer());
+  }
+  if (!item.family) item.family = nombreFamilia(item.data.buffer);
+  if (!item.cssFamily) {
+    item.cssFamily = "fuente_" + (++contFace);
+    try {
+      const face = new FontFace(item.cssFamily, item.data.slice().buffer);
+      await face.load();
+      document.fonts.add(face);
+    } catch (err) { log("No se pudo previsualizar " + item.nombre + ": " + err); item.cssFamily = null; }
+  }
+  return item;
+}
+
+function seleccionarFuente(item) {
+  fuentes.length = 0;
+  familiaActiva = null;
+  if (!item) { $("fontinfo").textContent = "Se usa la fuente por defecto."; actualizarPreview(); return; }
+  $("fontinfo").textContent = "Cargando fuente...";
+  cargaPendiente = prepararFuente(item).then(f => {
+    fuentes.push({ name: f.archivo ? f.archivo.split("/").pop() : f.nombre, data: f.data, family: f.family, cssFamily: f.cssFamily });
+    familiaActiva = f.family;
+    $("fontinfo").textContent = f.family ? "Fuente: " + f.family : "No se pudo detectar el nombre interno de la fuente.";
+    actualizarPreview();
+  }).catch(err => {
+    $("fontinfo").textContent = "Error al cargar la fuente: " + err.message;
+  });
+}
+
+function agregarOpcion(item, idx, elegir) {
+  const o = document.createElement("option");
+  o.value = String(idx); o.textContent = item.nombre;
+  $("fuenteSel").appendChild(o);
+  if (elegir) { $("fuenteSel").value = String(idx); }
+}
+
+$("fuenteSel").addEventListener("change", e => {
+  seleccionarFuente(e.target.value === "" ? null : catalogo[+e.target.value]);
+});
+
+$("fontfile").addEventListener("change", async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const data = new Uint8Array(await f.arrayBuffer());
+  const item = { nombre: f.name + " (tuya)", data };
+  catalogo.push(item);
+  agregarOpcion(item, catalogo.length - 1, true);
+  seleccionarFuente(item);
+});
+
+// Lista de fuentes del sitio (fonts.json)
+(async () => {
+  try {
+    const resp = await fetch(ruta("json/fonts.json"));
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const lista = await resp.json();
+    for (const it of lista) {
+      catalogo.push({ nombre: it.nombre, archivo: it.archivo });
+      agregarOpcion(catalogo[catalogo.length - 1], catalogo.length - 1, false);
+    }
+    if (lista.length) $("fontinfo").textContent = "Elegí una fuente de la lista o subí la tuya.";
+  } catch (err) {
+    $("fontinfo").textContent = "No hay lista de fuentes del sitio (fonts.json). Podés subir la tuya.";
+  }
+})();
+actualizarPreview();
+
+// ---------- Render ----------
+let stlParts = {};      // { Base, Nombre, Borde, Completo } (texto STL)
+
+// Mide las letras a partir del STL de la parte "Medida" para ubicar la arandela y dimensionar el fondo
+function cajaDesdeSTL(txt) {
+  const re = /vertex\s+(\S+)\s+(\S+)\s+(\S+)/g;
+  let m, x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  while ((m = re.exec(txt))) { const x = +m[1], y = +m[2]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (!isFinite(x0)) return null;                 // sin letras: el .scad estima
+  return [x0, y0, x1, y1].map(v => Math.round(v * 1000) / 1000);
+}
+let paramsUsados = null;
+
+const SELECTS = ["forma_fondo", "estilo_texto", "estilo_borde", "lado_arandela"];
+
+function leerParams() {
+  const p = { nombre: $("nombre").value, fuente: familiaActiva, fontsData: fuentes.map(f => ({ name: f.name, data: f.data })) };
+  for (const id of ["tamano","espaciado","margen","altura_base","altura_relieve","radio_exterior","radio_interior","posicion_x","posicion_y",
+                    "suavizado","radio_esquinas","grosor_borde","profundidad","marco_grosor","marco_altura"]) p[id] = $(id).value;
+  for (const id of SELECTS) p[id] = $(id).value;
+  return p;
+}
+
+// Cada llamada crea una instancia nueva del motor (callMain se usa una sola vez por instancia).
+async function correr(parte, params) {
+  const OpenSCAD = await cargarMotor();
+  const base = OPENSCAD_JS.replace(/openscad\.js$/, "");
+  const opciones = {
+    noInitialRun: true,
+    locateFile: p => base + p,
+    print: log, printErr: log,
+    preRun: [m => { try { m.ENV.FONTCONFIG_PATH = "/fonts"; } catch (_) {} }]
+  };
+  let inst;
+  try {
+    inst = await OpenSCAD(opciones);
+    if (inst && typeof inst.getInstance === "function") inst = await inst.getInstance();
+  } catch (err) {
+    log("Inicio con opciones propias falló (" + err + "). Reintento con valores por defecto...");
+    inst = await OpenSCAD();
+    if (inst && typeof inst.getInstance === "function") inst = await inst.getInstance();
+  }
+  if (!inst || !inst.FS) {
+    throw new Error("El motor no devolvió el sistema de archivos. Campos: " + Object.keys(inst || {}).join(", "));
+  }
+  try { inst.ENV.FONTCONFIG_PATH = "/fonts"; } catch (_) {}
+
+  try { inst.FS.mkdir("/fonts"); } catch (_) {}
+  inst.FS.writeFile("/fonts/fonts.conf",
+    '<?xml version="1.0"?><fontconfig><dir>/fonts</dir><cachedir>/tmp/fc</cachedir></fontconfig>');
+  for (const f of params.fontsData) inst.FS.writeFile("/fonts/" + f.name, f.data);
+
+  let scad;
+  try {
+    const resp = await fetch(SCAD_URL);
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    scad = await resp.text();
+  } catch (err) {
+    throw new Error("No se pudo leer " + SCAD_URL + " (" + err.message + "). ¿Está llavero.scad dentro de la carpeta scad del repo?");
+  }
+  inst.FS.writeFile("/llavero.scad", scad);
+
+  const q = s => '"' + String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+  const args = ["/llavero.scad", "-o", "/salida.stl", "--export-format", "asciistl",
+    "-D", "nombre=" + q(params.nombre),
+    "-D", "parte=" + q(parte)];
+  if (params.fuente) args.push("-D", "fuente=" + q(params.fuente));
+  for (const id of ["tamano","espaciado","margen","altura_base","altura_relieve","radio_exterior","radio_interior","posicion_x","posicion_y",
+                    "suavizado","radio_esquinas","grosor_borde","profundidad","marco_grosor","marco_altura"]) {
+    args.push("-D", id + "=" + params[id]);
+  }
+  for (const id of SELECTS) args.push("-D", id + "=" + q(params[id]));
+  if (params.caja) args.push("-D", "caja=[" + params.caja.join(",") + "]");
+  try { inst.callMain(args); } catch (err) { log("callMain: " + err); }
+  try {
+    return inst.FS.readFile("/salida.stl", { encoding: "utf8" });
+  } catch (_) {
+    log("La parte \"" + parte + "\" salió vacía (OpenSCAD no generó archivo).");
+    return "";
+  }
+}
+
+$("render").addEventListener("click", async () => {
+  const btn = $("render");
+  btn.disabled = true;
+  $("descCompleto").disabled = true;
+  stlParts = {};
+  try {
+    await cargaPendiente;
+    paramsUsados = leerParams();
+    const borde = paramsUsados.estilo_borde !== "Ninguno" && paramsUsados.estilo_texto !== "Grabado";
+    const sinLetras = paramsUsados.estilo_texto === "Grabado";   // las letras son un hueco: no hay pieza aparte
+    const total = 3 + (borde ? 1 : 0) + (sinLetras ? 0 : 1);
+    let n = 0;
+    const paso = () => { avance(n / total); estado("Generando… " + (++n) + "/" + total + (n === 1 ? " · la primera vez tarda más" : ""), true); };
+    paso();
+    paramsUsados.caja = cajaDesdeSTL(await correr("Medida", paramsUsados));
+    paso();
+    stlParts.Base = await correr("Base", paramsUsados);
+    if (!sinLetras) {
+      paso(); stlParts.Nombre = await correr("Nombre", paramsUsados);
+      if (!stlParts.Nombre) log("Aviso: las letras salieron vacías. Estilo recibido: " + paramsUsados.estilo_texto);
+    }
+    if (borde) { paso(); stlParts.Borde = await correr("Borde", paramsUsados); }
+    if (!stlParts.Base && paramsUsados.forma_fondo !== "Ninguno") throw new Error("El fondo salió vacío. Revisá los parámetros y el registro.");
+    mostrarPartes(stlParts.Base, stlParts.Nombre, stlParts.Borde);
+    paso();
+    stlParts.Completo = await correr("Completo", paramsUsados);
+    $("descCompleto").disabled = false;
+    avance(1); estado("Listo. Arrastrá para girar y usá la rueda para acercar.");
+    setTimeout(() => avance(null), 600);
+  } catch (err) {
+    console.error(err);
+    avance(null);
+    estado("No se pudo generar el llavero. Revisá los datos e intentá de nuevo.");
+    log(err && err.stack ? err.stack : JSON.stringify(err) || String(err));
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+$("descCompleto").addEventListener("click", () => {
+  if (!stlParts.Completo) return;
+  const blob = new Blob([stlParts.Completo], { type: "model/stl" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = ((paramsUsados && paramsUsados.nombre) || "llavero").trim() + ".stl";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// ---------- Visor 3D ----------
+// Controles propios: arrastrar = girar, rueda = acercar/alejar.
+let grupo = null;
+const matBase = new THREE.MeshStandardMaterial({ color: $("colorBase").value, roughness: .6 });
+const matTexto = new THREE.MeshStandardMaterial({ color: $("colorTexto").value, roughness: .6 });
+const matBorde = new THREE.MeshStandardMaterial({ color: $("colorBorde").value, roughness: .6 });
+let distancia = 100;
+let rotX = -0.9, rotZ = 0;
+const cont = $("view");
+let renderer, scene, camera;
+
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  cont.appendChild(renderer.domElement);
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
+  grupo = new THREE.Group();
+  scene.add(grupo);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.9));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.6);
+  dl.position.set(50, -80, 120);
+  scene.add(dl);
+
+  const ajustar = () => {
+    const w = cont.clientWidth, h = cont.clientHeight;
+    if (!w || !h) return;                 // oculto: se reajusta solo cuando vuelve a verse
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+  new ResizeObserver(ajustar).observe(cont);
+  ajustar();
+
+  let arrastrando = false, px = 0, py = 0;
+  const el = renderer.domElement;
+  el.style.touchAction = "none";
+  el.addEventListener("pointerdown", e => { arrastrando = true; px = e.clientX; py = e.clientY; el.setPointerCapture(e.pointerId); });
+  el.addEventListener("pointerup", () => { arrastrando = false; });
+  el.addEventListener("pointermove", e => {
+    if (!arrastrando) return;
+    rotZ += (e.clientX - px) * 0.01;
+    rotX += (e.clientY - py) * 0.01;
+    rotX = Math.max(-Math.PI, Math.min(0, rotX));
+    px = e.clientX; py = e.clientY;
+  });
+  el.addEventListener("wheel", e => {
+    e.preventDefault();
+    distancia *= e.deltaY > 0 ? 1.1 : 0.9;
+  }, { passive: false });
+
+  (function loop() {
+    requestAnimationFrame(loop);
+    grupo.rotation.order = "XZY"; grupo.rotation.set(rotX, 0, rotZ);
+    camera.position.set(0, 0, distancia);
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  })();
+} catch (err) {
+  log("No se pudo iniciar el visor 3D: " + err);
+}
+
+function geoDesdeSTL(txt) {
+  const v = [];
+  const re = /vertex\s+(\S+)\s+(\S+)\s+(\S+)/g;
+  let m; while ((m = re.exec(txt))) v.push(+m[1], +m[2], +m[3]);
+  if (!v.length) return null;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(v, 3));
+  geo.computeVertexNormals();
+  geo.computeBoundingBox();
+  return geo;
+}
+
+function mostrarPartes(stlBase, stlNombre, stlBorde) {
+  const gb = stlBase ? geoDesdeSTL(stlBase) : null;
+  const gn = stlNombre ? geoDesdeSTL(stlNombre) : null;
+  const gr = stlBorde ? geoDesdeSTL(stlBorde) : null;
+  if (stlNombre && !gn) log("Las letras salieron vacías (¿se cargó bien la fuente o el nombre está en blanco?).");
+  if (!scene) { log("Modelo generado, pero el visor 3D no está disponible. Igual podés descargar el STL."); return; }
+
+  // Centrar todas las piezas con el mismo desplazamiento para que sigan alineadas
+  const piezas = [gb, gn, gr].filter(Boolean);
+  if (!piezas.length) throw new Error("El modelo salió vacío. Revisá los parámetros y el registro.");
+  const caja = piezas[0].boundingBox.clone();
+  piezas.forEach(g => caja.union(g.boundingBox));
+  const c = new THREE.Vector3(); caja.getCenter(c);
+  const size = new THREE.Vector3(); caja.getSize(size);
+  piezas.forEach(g => g.translate(-c.x, -c.y, -c.z));
+
+  while (grupo.children.length) grupo.remove(grupo.children[0]);
+  if (gb) grupo.add(new THREE.Mesh(gb, matBase));
+  if (gn) grupo.add(new THREE.Mesh(gn, matTexto));
+  if (gr) grupo.add(new THREE.Mesh(gr, matBorde));
+  distancia = Math.max(size.x, size.y) * 2.2;
+  rotX = -0.5; rotZ = 0;
+}
+
+// Cambiar colores sin volver a generar
+$("colorBase").addEventListener("input", e => { matBase.color.set(e.target.value); actualizarPreview(); });
+$("colorTexto").addEventListener("input", e => { matTexto.color.set(e.target.value); actualizarPreview(); });
+$("colorBorde").addEventListener("input", e => matBorde.color.set(e.target.value));
+
+// Muestra solo los campos que corresponden a la opción elegida
+function actualizarVisibilidad() {
+  const sinFondo = $("forma_fondo").value === "Ninguno";
+  if (sinFondo) $("estilo_texto").value = "Relieve";      // sin fondo solo existen letras en relieve
+  $("estilo_texto").disabled = sinFondo;
+  document.querySelectorAll("#vista-llaveros [data-solo]").forEach(el => {
+    el.hidden = !el.dataset.solo.split(";").every(cond => {
+      const [id, valores] = cond.split(":");
+      return valores.split(",").includes($(id).value);
+    });
+  });
+  // El color del borde siempre se ve; se atenúa cuando el borde no aplica
+  const bordeAplica = ["Redondeado", "Recto", "Biselado", "Sombra"].includes($("estilo_borde").value) && $("estilo_texto").value !== "Grabado";
+  $("colorBorde").disabled = !bordeAplica;
+  $("colorBorde").parentElement.style.opacity = bordeAplica ? "" : ".45";
+}
+$("vista-llaveros").addEventListener("change", actualizarVisibilidad);
+actualizarVisibilidad();
+actualizarPreview();
+</script>

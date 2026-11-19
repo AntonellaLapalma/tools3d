@@ -1,0 +1,202 @@
+<!-- Fragmento: lo carga html/index.html dentro de la página; no es una página independiente -->
+  <div class="layout">
+    <div>
+      <section class="panel">
+        <h3>Impresora</h3>
+        <label>Modelo</label>
+        <select id="modelo">
+          <option value="p2s">Bambu Lab P2S Combo</option>
+          <option value="custom">Personalizado</option>
+        </select>
+        <div class="row3">
+          <div><label>Precio</label><span class="campo"><span class="u">$</span><input id="precioImp" type="text" inputmode="decimal" class="num" autocomplete="off" value="2.800.000"></span></div>
+          <div><label>Vida útil</label><span class="campo"><input id="vida" type="text" inputmode="decimal" class="num" autocomplete="off" value="4.380"><span class="u">horas</span></span></div>
+          <div><label>Consumo por hora</label><span class="campo"><input id="consumo" type="text" inputmode="decimal" class="num" autocomplete="off" value="0,215"><span class="u">kWh/h</span></span></div>
+        </div>
+        <div class="hint">Los valores se cargan según el modelo, pero podés modificarlos.</div>
+      </section>
+
+      <section class="panel">
+        <h3>Filamento</h3>
+        <div id="fil"></div>
+        <button class="sec" id="addFil">Agregar filamento</button>
+        <div class="hint">Precio del kilo y gramos usados en toda la impresión.</div>
+      </section>
+
+      <section class="panel">
+        <h3>Insumos</h3>
+        <div id="ins"></div>
+        <button class="sec" id="addIns">Agregar insumo</button>
+        <div class="hint">Llaveros, pegamento, bolsas, etc.: valor unitario y cantidad usada.</div>
+      </section>
+
+      <section class="panel">
+        <h3>Datos de impresión</h3>
+        <div class="row">
+          <div><label>Horas</label><span class="campo"><input id="horas" type="text" inputmode="decimal" class="num" autocomplete="off" value="0"><span class="u">h</span></span></div>
+          <div><label>Minutos</label><span class="campo"><input id="min" type="text" inputmode="decimal" class="num" autocomplete="off" value="0"><span class="u">min</span></span></div>
+          <div><label>Precio del kWh</label><span class="campo"><span class="u">$</span><input id="pkwh" type="text" inputmode="decimal" class="num" autocomplete="off" value="165"></span></div>
+          <div><label>Margen de error</label><span class="campo"><input id="err" type="text" inputmode="decimal" class="num" autocomplete="off" value="15"><span class="u">%</span></span></div>
+        </div>
+        <label>Piezas que salen de la impresión</label><input id="piezas" type="text" inputmode="decimal" class="num" autocomplete="off" value="1">
+      </section>
+    </div>
+
+    <aside class="res">
+      <section class="panel">
+        <h3>Costo de producción</h3>
+        <div class="lin"><span>Filamento</span><b id="r_fil"></b></div>
+        <div class="lin"><span>Insumos</span><b id="r_ins"></b></div>
+        <div class="lin"><span>Desgaste de impresora</span><b id="r_des"></b></div>
+        <div class="lin"><span>Electricidad</span><b id="r_ele"></b></div>
+        <div class="lin"><span>Margen de error</span><b id="r_err"></b></div>
+        <div class="lin tot"><span>Total de producción</span><b id="r_tot"></b></div>
+        <div class="lin tot"><span>Costo por pieza</span><b id="r_pie"></b></div>
+      </section>
+
+      <section class="panel">
+        <h3>Precio de venta</h3>
+        <div class="row">
+          <div><label>Ganancia</label><span class="campo"><input id="gan" type="text" inputmode="decimal" class="num" autocomplete="off" value="100"><span class="u">%</span></span></div>
+          <div><label>Piezas a vender</label><input id="cant" type="text" inputmode="decimal" class="num" autocomplete="off" value="1"></div>
+        </div>
+        <div class="hint" style="margin-top:12px">Precio total</div>
+        <div class="grande" id="p_tot"></div>
+        <div class="lin"><span>Precio por pieza</span><b id="p_pie"></b></div>
+        <div class="lin"><span class="costo">↓ Costo de producción</span><b class="costo" id="p_cos"></b></div>
+        <div class="lin"><span class="gan">↑ Ganancia obtenida</span><b class="gan" id="p_gan"></b></div>
+      </section>
+    </aside>
+  </div>
+<script type="module">
+const $ = id => document.getElementById(id);
+const RAIZ = $("vista-calculadora");   // los eventos globales se limitan a esta herramienta
+// Formato argentino: puntos de miles y coma decimal
+const val = s => parseFloat(String(s).replace(/\./g, "").replace(",", ".")) || 0;
+const num = el => val(el.value);
+const money = v => v.toLocaleString("es-AR", { style: "currency", currency: "ARS", useGrouping: "always" });
+const fmtNum = n => n === "" ? "" : Number(n).toLocaleString("es-AR", { maximumFractionDigits: 6, useGrouping: "always" });
+
+// Da formato mientras se escribe (puntos de miles) y mantiene la posición del cursor
+function formatear(el) {
+  const pos = el.selectionStart ?? el.value.length;
+  const sig = el.value.slice(0, pos).replace(/[^\d,]/g, "").length;   // dígitos y coma antes del cursor
+  const partes = el.value.replace(/[^\d,]/g, "").split(",");
+  let ent = partes[0].replace(/^0+(?=\d)/, "");
+  const dec = partes.length > 1 ? partes.slice(1).join("") : null;
+  ent = ent.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const out = ent + (dec !== null ? "," + dec : "");
+  if (out === el.value) return;
+  el.value = out;
+  let c = 0, i = 0;
+  while (i < out.length && c < sig) { if (/[\d,]/.test(out[i])) c++; i++; }
+  el.setSelectionRange(i, i);
+}
+// El punto del teclado numérico se escribe como coma decimal
+RAIZ.addEventListener("keydown", e => {
+  if (e.key === "." && e.target.classList?.contains("num")) {
+    e.preventDefault();
+    if (!e.target.value.includes(",")) e.target.setRangeText(",", e.target.selectionStart, e.target.selectionEnd, "end");
+    formatear(e.target); calcular();
+  }
+});
+RAIZ.addEventListener("input", e => { if (e.target.classList?.contains("num")) formatear(e.target); });
+const CAMPOS = ["modelo","precioImp","vida","consumo","horas","min","pkwh","err","piezas","gan","cant"];
+
+// Ícono de tacho de basura (SVG propio; toma el color del texto)
+const ICONO_BASURA = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v5M14 11v5"/></svg>';
+
+// Campo numérico con la unidad en gris dentro del mismo recuadro
+const campo = (cls, ph, pre, suf) =>
+  '<span class="campo">' + (pre ? '<span class="u">' + pre + '</span>' : '') +
+  '<input class="' + cls + ' num" type="text" inputmode="decimal" autocomplete="off" placeholder="' + ph + '">' +
+  (suf ? '<span class="u">' + suf + '</span>' : '') + '</span>';
+
+// Filas dinámicas: filamento (nombre, gramos, $/kg) e insumos (nombre, valor unitario, cantidad)
+function agregarFila(tipo, d = {}) {
+  const f = tipo === "fil";
+  const div = document.createElement("div");
+  div.className = "fila";
+  div.innerHTML =
+    '<input class="nom" placeholder="' + (f ? "Ej: PLA negro" : "Ej: Llavero metálico") + '">' +
+    (f ? campo("a", "Precio por kg", "$", "/kg") + campo("b", "Gramos", "", "g")
+       : campo("a", "Valor unitario", "$", "") + campo("b", "Cantidad", "", "")) +
+    '<span class="sub"></span><button class="x" title="Quitar" aria-label="Quitar">' + ICONO_BASURA + '</button>';
+  div.querySelector(".nom").value = d.n || "";
+  div.querySelector(".a").value = d.a ?? "";
+  div.querySelector(".b").value = d.b ?? "";
+  div.querySelector(".x").onclick = () => { div.remove(); calcular(); };
+  $(tipo).append(div);
+}
+const leerFilas = tipo => [...$(tipo).children].map(r => ({
+  n: r.querySelector(".nom").value, a: r.querySelector(".a").value, b: r.querySelector(".b").value, row: r }));
+
+function calcular() {
+  let fil = 0, ins = 0;
+  leerFilas("fil").forEach(r => { const c = val(r.b) / 1000 * val(r.a); fil += c; r.row.querySelector(".sub").textContent = money(c); });
+  leerFilas("ins").forEach(r => { const c = val(r.a) * val(r.b); ins += c; r.row.querySelector(".sub").textContent = money(c); });
+
+  const horas = num($("horas")) + num($("min")) / 60;
+  const vida = num($("vida"));
+  const des = vida > 0 ? num($("precioImp")) / vida * horas : 0;
+  const ele = num($("consumo")) * horas * num($("pkwh"));
+  const sub = fil + ins + des + ele;
+  const err = sub * num($("err")) / 100;
+  const tot = sub + err;
+  const piezas = Math.max(1, num($("piezas")));
+  const porPieza = tot / piezas;
+
+  const set = (id, v) => $(id).textContent = money(v);
+  set("r_fil", fil); set("r_ins", ins); set("r_des", des); set("r_ele", ele);
+  set("r_err", err); set("r_tot", tot); set("r_pie", porPieza);
+
+  const precioPieza = porPieza * (1 + num($("gan")) / 100);
+  const cant = Math.max(1, num($("cant")));
+  const venta = precioPieza * cant, costo = porPieza * cant;
+  set("p_pie", precioPieza); set("p_tot", venta); set("p_cos", costo); set("p_gan", venta - costo);
+  guardar();
+}
+
+function guardar() {
+  try {
+    const d = { filas: { fil: leerFilas("fil").map(({ n, a, b }) => ({ n, a, b })), ins: leerFilas("ins").map(({ n, a, b }) => ({ n, a, b })) } };
+    CAMPOS.forEach(id => d[id] = $(id).value);
+    localStorage.setItem("calc3d_v3", JSON.stringify(d));
+  } catch (_) {}
+}
+
+function cargar() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem("calc3d_v3")); } catch (_) {}
+  if (d) {
+    // Un campo guardado vacío no pisa el valor por defecto (salvo los de la impresora "Personalizado")
+    const libres = d.modelo === "custom" ? ["precioImp", "vida", "consumo"] : [];
+    CAMPOS.forEach(id => {
+      if (d[id] === undefined) return;
+      if (d[id] === "" && !libres.includes(id)) return;
+      $(id).value = d[id];
+    });
+    (d.filas?.fil || []).forEach(r => agregarFila("fil", r));
+    (d.filas?.ins || []).forEach(r => agregarFila("ins", r));
+  }
+  if (!$("fil").children.length) agregarFila("fil");
+  if (!$("ins").children.length) agregarFila("ins");
+}
+
+// Valores por modelo de impresora ("custom" deja los campos vacíos para completarlos)
+const IMPRESORAS = {
+  p2s:    { precioImp: 2800000, vida: 4380, consumo: 0.215 },
+  custom: { precioImp: "", vida: "", consumo: "" }
+};
+$("modelo").addEventListener("change", () => {
+  const v = IMPRESORAS[$("modelo").value] || IMPRESORAS.custom;
+  for (const id in v) $(id).value = fmtNum(v[id]);
+  calcular();
+});
+
+$("addFil").onclick = () => agregarFila("fil");
+$("addIns").onclick = () => agregarFila("ins");
+RAIZ.addEventListener("input", calcular);
+cargar();
+calcular();
+</script>
